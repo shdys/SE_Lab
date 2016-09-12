@@ -29,6 +29,11 @@ public class Expression {
 		{
 			if(expressionInput.charAt(i)=='+')
 			{
+				if(leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)
+				{
+					System.out.println("ERROR!");
+					return ;
+				}
 				next = new Expression();
 				leftTemp.down=next;
 				next.positiveOrNegative=true;
@@ -37,6 +42,11 @@ public class Expression {
 			}
 			else if (expressionInput.charAt(i)=='-')
 			{
+				if(leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)
+				{
+					System.out.println("ERROR!");
+					return ;
+				}
 				next = new Expression();
 				leftTemp.down=next;
 				next.positiveOrNegative=false;
@@ -45,6 +55,11 @@ public class Expression {
 			}
 			else if (expressionInput.charAt(i)=='*')
 			{
+				if((leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)||(temp.simpleOrComplex&&temp.abc==null&&temp.num==-1))
+				{
+					System.out.println("ERROR!");
+					return ;
+				}
 				next = new Expression();
 				temp.right=next;
 				temp=next;
@@ -59,8 +74,18 @@ public class Expression {
 				for (j=i;expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9';)
 				{
 					j++;
+					if((j-i)>=18)
+					{
+						System.out.println("ERROR!");
+						return ;
+					}
 					if (j==expressionInput.length())
 						break;
+				}
+				if(i==j)
+				{
+					System.out.println("ERROR!");
+					return;
 				}
 				temp.pow=Long.parseLong(expressionInput.substring(i,j));
 				i=j;
@@ -78,7 +103,14 @@ public class Expression {
 					if(expressionInput.charAt(j)==')')
 						x--;
 					if (j==expressionInput.length())
+					{
+						if (x>0)
+						{
+							System.out.println("ERROR!");
+							return ;
+						}
 						break;
+					}
 				}
 				next.Set(expressionInput.substring(i+1,j));
 				if (head.down==null && head.right==null)
@@ -118,6 +150,11 @@ public class Expression {
 				for(j=i;expressionInput.charAt(j)>='0' && expressionInput.charAt(j)<='9';)
 				{
 					j++;
+					if((j-i)>=18)
+					{
+						System.out.println("ERROR!");
+						return ;
+					}
 					if (j==expressionInput.length())
 						break;
 				}
@@ -140,6 +177,11 @@ public class Expression {
 			}
 			i++;
 		}
+		if(next.simpleOrComplex&&next.abc==null&&next.num==-1)
+		{
+			System.out.println("ERROR!");
+			return;
+		}
 	}
 	public Expression()
 	{
@@ -149,7 +191,7 @@ public class Expression {
 		right=null;
 		abc=null;
 		pow=1;
-		num=0;
+		num=-1;
 		abc=null;
 		abcOrNum=true;
 		positiveOrNegative=true;
