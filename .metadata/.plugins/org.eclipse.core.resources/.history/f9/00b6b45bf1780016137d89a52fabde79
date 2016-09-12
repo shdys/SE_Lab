@@ -69,11 +69,13 @@ public class Expression {
 			
 			else if (expressionInput.charAt(i)=='^')
 			{
-				int j;
+				int j,k;
 				i++;
-				for(;expressionInput.charAt(i)==' ';i++);
-				for (j=i;(expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9');)
+				k=0;
+				for (j=i;(expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9')||expressionInput.charAt(j)==' ';)
 				{
+					if(expressionInput.charAt(j)==' ')
+						k++;
 					j++;
 					if((j-i)>=18)
 					{
@@ -83,7 +85,7 @@ public class Expression {
 					if (j==expressionInput.length())
 						break;
 				}
-				if(i==j)
+				if(i==j-k)
 				{
 					System.out.println("ERROR!");
 					return;
@@ -238,7 +240,7 @@ public class Expression {
 				}
 				else
 					leftHead.printout();
-				if(leftHead.pow!=1)
+				if(leftHead.pow>1)
 				{
 					System.out.print('^');
 					System.out.print(leftHead.pow);
@@ -256,7 +258,7 @@ public class Expression {
 					}
 					else
 						next.printout();
-					if(next.pow!=1)
+					if(next.pow>1)
 					{
 						System.out.print('^');
 						System.out.print(next.pow);
@@ -286,6 +288,4 @@ public class Expression {
 		
 		return result;
 	}
-	
-	
 }

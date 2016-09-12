@@ -238,7 +238,7 @@ public class Expression {
 				}
 				else
 					leftHead.printout();
-				if(leftHead.pow!=1)
+				if(leftHead.pow>1)
 				{
 					System.out.print('^');
 					System.out.print(leftHead.pow);
@@ -256,7 +256,7 @@ public class Expression {
 					}
 					else
 						next.printout();
-					if(next.pow!=1)
+					if(next.pow>1)
 					{
 						System.out.print('^');
 						System.out.print(next.pow);
@@ -286,6 +286,4 @@ public class Expression {
 		
 		return result;
 	}
-	
-	
 }
