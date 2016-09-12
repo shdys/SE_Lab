@@ -71,8 +71,7 @@ public class Expression {
 			{
 				int j;
 				i++;
-				for(;expressionInput.charAt(i)==' ';i++);
-				for (j=i;(expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9');)
+				for (j=i;expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9';)
 				{
 					j++;
 					if((j-i)>=18)
@@ -113,12 +112,6 @@ public class Expression {
 						break;
 					}
 				}
-				if(next.num!=-1||next.abc!=null||next.simpleOrComplex==false)
-				{
-					next = new Expression();
-					temp.right=next;
-					temp=next;
-				}
 				next.Set(expressionInput.substring(i+1,j));
 				if (head.down==null && head.right==null)
 				{
@@ -139,12 +132,6 @@ public class Expression {
 					if (j==expressionInput.length())
 						break;
 				}
-				if(next.num!=-1||next.abc!=null||next.simpleOrComplex==false)
-				{
-					next = new Expression();
-					temp.right=next;
-					temp=next;
-				}
 				next.abc=expressionInput.substring(i, j);
 				next.abcOrNum=true;
 				next.pow=1;
@@ -152,6 +139,12 @@ public class Expression {
 				{
 					head.down=next;
 					leftTemp=next;
+					temp=next;
+				}
+				if(j!=expressionInput.length()&&(expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9'))
+				{
+					next = new Expression();
+					temp.right=next;
 					temp=next;
 				}
 				i=j;
@@ -171,12 +164,6 @@ public class Expression {
 					if (j==expressionInput.length())
 						break;
 				}
-				if(next.num!=-1||next.abc!=null||next.simpleOrComplex==false)
-				{
-					next = new Expression();
-					temp.right=next;
-					temp=next;
-				}
 				next.num=Long.parseLong(expressionInput.substring(i, j));
 				next.abcOrNum=false;
 				next.pow=1;
@@ -184,6 +171,12 @@ public class Expression {
 				{
 					head.down=next;
 					leftTemp=next;
+					temp=next;
+				}
+				if ((expressionInput.charAt(j)>='A'&&expressionInput.charAt(j)<='Z') || (expressionInput.charAt(j)>='a'&&expressionInput.charAt(j)<='z'))
+				{
+					next = new Expression();
+					temp.right=next;
 					temp=next;
 				}
 				i=j;

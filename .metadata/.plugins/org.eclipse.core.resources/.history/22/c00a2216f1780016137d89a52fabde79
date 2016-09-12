@@ -71,8 +71,7 @@ public class Expression {
 			{
 				int j;
 				i++;
-				for(;expressionInput.charAt(i)==' ';i++);
-				for (j=i;(expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9');)
+				for (j=i;expressionInput.charAt(j)>='0'&&expressionInput.charAt(j)<='9';)
 				{
 					j++;
 					if((j-i)>=18)
