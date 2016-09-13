@@ -1,4 +1,4 @@
-package ±í´ïÊ½¼ÆËã;
+package è¡¨è¾¾å¼è®¡ç®—;
 
 public class Expression {
 	private boolean simpleOrComplex;
@@ -16,7 +16,7 @@ public class Expression {
 	
 	public void Set(String expressionInput)
 	{
-		//¸³³õÊ¼Öµ
+		//Â¸Â³Â³ÃµÃŠÂ¼Ã–Âµ
 		simpleOrComplex = false;
 		
 		head = new Expression();
@@ -127,7 +127,7 @@ public class Expression {
 					temp=next;
 				}
 				i=j;
-				//ÒÔºóÔÙµ÷Õû·¶Î§
+				//Ã’Ã”ÂºÃ³Ã”Ã™ÂµÃ·Ã•Ã»Â·Â¶ÃŽÂ§
 			}
 			
 			else if ((expressionInput.charAt(i)>='A'&&expressionInput.charAt(i)<='Z') || (expressionInput.charAt(i)>='a'&&expressionInput.charAt(i)<='z'))
@@ -280,12 +280,56 @@ public class Expression {
 
 	}
 
-	public Expression simplify()
+	public Expression simplify(String x[][],int n)
 	{
 		Expression result = new Expression();
 		
 		return result;
 	}
 	
+	public Expression derivative(String var)
+	{
+		Expression result = new Expression();
+		
+		return result;
+	}
+	
+	public void Command(String commandInput)
+	{
+		Expression lalala=new Expression();
+		if (commandInput.substring(1,9).equals("simplify"))
+		{
+			String[][] x=new String[100][2];
+			int n=0;
+			for(int i=10;i<commandInput.length();i++)
+			{
+				if((commandInput.charAt(i)>='A'&&commandInput.charAt(i)<='Z') || (commandInput.charAt(i)>='a'&&commandInput.charAt(i)<='z'))
+				{
+					int j;
+					for(j=i;commandInput.charAt(j)!= '=';j++);
+					x[n][0] = commandInput.substring(i,j);
+					i = j;
+				}
+				else if(commandInput.charAt(i)>='0'&&commandInput.charAt(i)<='9')
+				{
+					int j;
+					for(j=i;j <commandInput.length()&&commandInput.charAt(j)!= ' ';j++);
+					x[n][1] = commandInput.substring(i,j);
+					i = j;
+					n++;
+				}
+			}
+			lalala = simplify(x,n);
+		}
+		else if(commandInput.substring(1,4).equals("d/d"))
+		{
+			String var = new String();
+			int j;
+			for(j=4;j<commandInput.length()&&commandInput.charAt(j)!= ' ';j++);
+			var = commandInput.substring(4,j);
+			lalala = derivative(var);
+		}
+		lalala.printout();
+	}
 	
 }
