@@ -1,8 +1,6 @@
 package 表达式计算;
 
 public class Expression {
-	private static final String[][] String = null;
-
 	private String thisExpression;
 	
 	private boolean simpleOrComplex;
@@ -286,34 +284,6 @@ public class Expression {
 
 	}
 
-	public void change(String[][] x,int n)
-	{
-		if(simpleOrComplex)
-		{
-			if(abcOrNum)
-			{
-				for(int i=0;i<n;i++)
-				{
-					if(x[i][0].equals(abc))
-					{
-						num=Long.parseLong(x[i][1]);
-						abcOrNum=false;
-						abc=null;
-					}
-				}
-			}
-		}
-		else
-		{
-			for(Expression i=head.down;i!=null;i=i.down)
-			{
-				for(Expression j=i;j!=null;j=j.right)
-				{
-					j.change(x, n);
-				}
-			}
-		}
-	}
 	public void simplify()
 	{
 		if(simpleOrComplex)
@@ -362,8 +332,6 @@ public class Expression {
 					temp=i.right;
 					i.right=leftTemp.right;
 					leftTemp.right=temp;
-					leftTemp.positiveOrNegative=leftTemp.positiveOrNegative&&i.positiveOrNegative;
-					i=leftTemp;
 				}
 				if(!i.abcOrNum&&i.simpleOrComplex&&i.right==null)
 				{
@@ -375,80 +343,32 @@ public class Expression {
 							plusTemp.num=plusTemp.num+i.num;
 						else
 							plusTemp.num=plusTemp.num-i.num;
-						Expression topTemp=null;
-						for(topTemp=head;topTemp.down!=i;topTemp=topTemp.down);
-						topTemp.down=i.down;
+						plusTemp.down=i.down;
 					}
 				}
 			}
 			
-			if(head.down.down==null&&head.down.right==null&&head.down.pow==1)
+			if(head.down.down==null&&head.down.right==null)
 			{
-				simpleOrComplex=head.down.simpleOrComplex;
+				simpleOrComplex=true;
+				head=head.down.head;
 				abc=head.down.abc;
-				pow=pow*head.down.pow;
+				pow=head.down.pow;
 				num=head.down.num;
 				abc=head.down.abc;
 				abcOrNum=head.down.abcOrNum;
 				positiveOrNegative=head.down.positiveOrNegative;
-				thisExpression=head.down.thisExpression;	
-				head=head.down.head;
-				if(!abcOrNum)
-				{
-					num= (long) Math.pow(num, pow);
-					pow=1;
-				}
+				thisExpression=head.down.thisExpression;				
 			}
 			
 		}
 	}
 	
-	public int derivative(String var)
+	public Expression derivative(String var)
 	{
-		int flag =0;
-		if(simpleOrComplex)
-		{
-			if(abcOrNum)
-			{
-				if(abc.equals(var))
-					flag=1;
-			}
-		}
-		else
-		{
-			for(Expression i=head.down;i!=null;i=i.down)
-			{
-				for(Expression j=i;j!=null;j=j.right)
-				{
-					flag = j.derivative(var);
-					if (flag == 1)
-					{
-						if(j.pow==1)
-						{
-							j.num=1;
-							j.abcOrNum=false;
-						}
-						else
-						{
-							Expression powTemp = new Expression();
-							powTemp.right=j.right;
-							j.right=powTemp;
-							powTemp.abcOrNum=false;
-							powTemp.num=j.pow;
-							j.pow--;
-						}
-					}
-					
-				}
-				if(flag==0)
-				{
-					i.num=0;
-					i.abcOrNum=false;
-				}
-				flag = 0;
-			}
-		}
-		return flag;
+		Expression result = new Expression();
+		
+		return result;
 	}
 	
 	public void Command(String commandInput)
@@ -477,7 +397,7 @@ public class Expression {
 				}
 			}
 			lalala.Set(thisExpression);
-			lalala.change(x,n);
+			//lalala.change(x,n);
 			lalala.simplify();
 		}
 		else if(commandInput.substring(1,4).equals("d/d"))

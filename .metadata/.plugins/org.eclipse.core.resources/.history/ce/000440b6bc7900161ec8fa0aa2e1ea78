@@ -294,11 +294,10 @@ public class Expression {
 			{
 				for(int i=0;i<n;i++)
 				{
-					if(x[i][0].equals(abc))
+					if(x[i][0]==abc)
 					{
-						num=Long.parseLong(x[i][1]);
+						num=Long.parseLong(x[i][0]);
 						abcOrNum=false;
-						abc=null;
 					}
 				}
 			}
@@ -403,52 +402,11 @@ public class Expression {
 		}
 	}
 	
-	public int derivative(String var)
+	public Expression derivative(String var)
 	{
-		int flag =0;
-		if(simpleOrComplex)
-		{
-			if(abcOrNum)
-			{
-				if(abc.equals(var))
-					flag=1;
-			}
-		}
-		else
-		{
-			for(Expression i=head.down;i!=null;i=i.down)
-			{
-				for(Expression j=i;j!=null;j=j.right)
-				{
-					flag = j.derivative(var);
-					if (flag == 1)
-					{
-						if(j.pow==1)
-						{
-							j.num=1;
-							j.abcOrNum=false;
-						}
-						else
-						{
-							Expression powTemp = new Expression();
-							powTemp.right=j.right;
-							j.right=powTemp;
-							powTemp.abcOrNum=false;
-							powTemp.num=j.pow;
-							j.pow--;
-						}
-					}
-					
-				}
-				if(flag==0)
-				{
-					i.num=0;
-					i.abcOrNum=false;
-				}
-				flag = 0;
-			}
-		}
-		return flag;
+		Expression result = new Expression();
+		
+		return result;
 	}
 	
 	public void Command(String commandInput)

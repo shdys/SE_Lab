@@ -445,7 +445,6 @@ public class Expression {
 					i.num=0;
 					i.abcOrNum=false;
 				}
-				flag = 0;
 			}
 		}
 		return flag;
