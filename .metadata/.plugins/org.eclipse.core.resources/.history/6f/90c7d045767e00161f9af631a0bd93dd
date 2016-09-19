@@ -10,25 +10,27 @@ public class PolynomialaArithmetic {
 		String Input ;
 		int la=0;
 		Expression a=new Expression();
-		System.out.println("Welcome to the PolynomialaArithmetic monitor.\nServer version: 1.0.9\nCopyright (c) 2016。\nType '!h' for help. Type '!q' for exit.\n ");
+		System.out.println("Welcome to the Polynomiala monitor.\nServer version: 1.0.9\nCopyright (c) 2016\nType '!h' for help. Type '!q' for exit.\n\n ");
 		while(true){
 			Input = lalala.nextLine();
-			try{
 			if(Input.length()>0&&Input.charAt(0)=='!')
 			{
-				if(Input.equals("!q")){
-					System.out.println("end");
+				if(Input.equals("!q"))
 					break;
-				}
 				else if (Input.equals("!h"))
-					System.out.println("啦啦啦懒得写啦就跟\n!例如：!simplify a=1  !d/dx \n必须严格按照规则输入！");
-
-				else if(Input.substring(0,4).equals("!d/d")||Input.substring(0,9).equals("!simplify"))
+					System.out.println("lalala");
+				else 
 				{
-					if(la==0)
+					try{
+					if(Input.substring(0,4).equals("!d/d")||Input.substring(0,9).equals("!simplify"))
 						System.out.println("尚未输入任何表达式，无法执行命令。\n");
 					else 
 						a.Command(Input);
+					}
+					catch(Exception e)
+					{
+						System.out.println("命令无效重新输入。\n"+e);
+					}
 				}
 			}
 			else 
@@ -37,11 +39,6 @@ public class PolynomialaArithmetic {
 				a.Set(Input);
 				a.printout();
 				System.out.print("\n");
-			}
-		}
-			catch(Exception e)
-			{
-				System.out.println("输入不合法！\n"+e);
 			}
 		}
 		lalala.close();

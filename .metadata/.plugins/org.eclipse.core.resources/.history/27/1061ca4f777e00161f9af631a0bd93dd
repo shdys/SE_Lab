@@ -37,7 +37,7 @@ public class Expression {
 				if(leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)
 				{
 					System.out.println("ERROR!1");
-					throw new ArithmeticException();
+					return ;
 				}
 				next = new Expression();
 				leftTemp.down=next;
@@ -50,7 +50,7 @@ public class Expression {
 				if(leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)
 				{
 					System.out.println("ERROR!2");
-					throw new ArithmeticException();
+					return ;
 				}
 				next = new Expression();
 				leftTemp.down=next;
@@ -63,7 +63,7 @@ public class Expression {
 				if((leftTemp.simpleOrComplex&&leftTemp.abc==null&&leftTemp.num==-1)||(temp.simpleOrComplex&&temp.abc==null&&temp.num==-1))
 				{
 					System.out.println("ERROR!3");
-					throw new ArithmeticException();
+					return ;
 				}
 				next = new Expression();
 				temp.right=next;
@@ -83,7 +83,7 @@ public class Expression {
 					if((j-i)>=18)
 					{
 						System.out.println("ERROR!4");
-						throw new ArithmeticException();
+						return ;
 					}
 					if (j==expressionInput.length())
 						break;
@@ -91,7 +91,7 @@ public class Expression {
 				if(i==j)
 				{
 					System.out.println("ERROR!5");
-					throw new ArithmeticException();
+					return;
 				}
 				temp.pow=Long.parseLong(expressionInput.substring(i,j));
 				i=j;
@@ -171,7 +171,7 @@ public class Expression {
 					if((j-i)>=18)
 					{
 						System.out.println("ERROR!7");
-						throw new ArithmeticException();
+						return ;
 					}
 					if (j==expressionInput.length())
 						break;
@@ -197,7 +197,7 @@ public class Expression {
 			else if (expressionInput.charAt(i)!='\t'&&expressionInput.charAt(i)!=' ')
 			{
 				System.out.println("ERROR!8");
-				throw new ArithmeticException();
+				return ;
 			}
 			i++;
 		}
@@ -205,6 +205,7 @@ public class Expression {
 		{
 			System.out.println("ERROR!9");
 			throw new ArithmeticException();
+			return;
 		}
 	}
 	public Expression()

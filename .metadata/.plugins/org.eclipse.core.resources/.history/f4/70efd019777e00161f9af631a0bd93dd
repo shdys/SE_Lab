@@ -1,6 +1,10 @@
-package ±í´ïÊ½¼ÆËã;
+package è¡¨è¾¾å¼è®¡ç®—;
 
 public class Expression {
+	private static final String[][] String = null;
+
+	private String thisExpression;
+	
 	private boolean simpleOrComplex;
 	
 	private Expression  head;
@@ -16,7 +20,8 @@ public class Expression {
 	
 	public void Set(String expressionInput)
 	{
-		//¸³³õÊ¼Öµ
+		//Â¸Â³Â³ÃµÃŠÂ¼Ã–Âµ
+		thisExpression=expressionInput;
 		simpleOrComplex = false;
 		
 		head = new Expression();
@@ -127,7 +132,7 @@ public class Expression {
 					temp=next;
 				}
 				i=j;
-				//ÒÔºóÔÙµ÷Õû·¶Î§
+				//Ã’Ã”ÂºÃ³Ã”Ã™ÂµÃ·Ã•Ã»Â·Â¶ÃŽÂ§
 			}
 			
 			else if ((expressionInput.charAt(i)>='A'&&expressionInput.charAt(i)<='Z') || (expressionInput.charAt(i)>='a'&&expressionInput.charAt(i)<='z'))
@@ -214,6 +219,7 @@ public class Expression {
 		abc=null;
 		abcOrNum=true;
 		positiveOrNegative=true;
+		thisExpression=null;
 	}
 	public void printout()
 	{
@@ -238,7 +244,7 @@ public class Expression {
 				}
 				else
 					leftHead.printout();
-				if(leftHead.pow>1)
+				if(leftHead.pow!=1)
 				{
 					System.out.print('^');
 					System.out.print(leftHead.pow);
@@ -256,7 +262,7 @@ public class Expression {
 					}
 					else
 						next.printout();
-					if(next.pow>1)
+					if(next.pow!=1)
 					{
 						System.out.print('^');
 						System.out.print(next.pow);
@@ -280,12 +286,228 @@ public class Expression {
 
 	}
 
-	public Expression simplify()
+	public void change(String[][] x,int n)
 	{
-		Expression result = new Expression();
-		
-		return result;
+		if(simpleOrComplex)
+		{
+			if(abcOrNum)
+			{
+				for(int i=0;i<n;i++)
+				{
+					if(x[i][0].equals(abc))
+					{
+						num=Long.parseLong(x[i][1]);
+						abcOrNum=false;
+						abc=null;
+					}
+				}
+			}
+		}
+		else
+		{
+			for(Expression i=head.down;i!=null;i=i.down)
+			{
+				for(Expression j=i;j!=null;j=j.right)
+				{
+					j.change(x, n);
+				}
+			}
+		}
+	}
+	public void simplify()
+	{
+		if(simpleOrComplex)
+		{
+			if(!abcOrNum)
+			{
+				num= (long) Math.pow(num, pow);
+				pow=1;
+			}
+		}
+		else
+		{
+			Expression i,j;
+			Expression leftTemp=null;
+			Expression plusTemp=null;
+			for(i=head.down;i!=null;i=i.down)
+			{
+				leftTemp=null;
+				Expression lalalaTemp=null;
+				for(j=i;j!=null;j=j.right)
+				{
+					j.simplify();
+					if(!j.abcOrNum&&j.simpleOrComplex)
+					{
+						if(leftTemp==null)
+							leftTemp=j;
+						else
+						{
+							leftTemp.num=leftTemp.num*j.num;
+							lalalaTemp.right=j.right;
+							//j=lalalaTemp;
+							continue;
+						}
+					}
+					lalalaTemp=j;
+				}
+				if(leftTemp!=null&&leftTemp!=i)
+				{
+					Expression preTemp,topTemp,temp;
+					for(preTemp=i;preTemp.right!=leftTemp;preTemp=preTemp.right);
+					for(topTemp=head;topTemp.down!=i;topTemp=topTemp.down);
+					topTemp.down=leftTemp;
+					leftTemp.down=i.down;
+					i.down=null;
+					preTemp.right=i;
+					temp=i.right;
+					i.right=leftTemp.right;
+					leftTemp.right=temp;
+					leftTemp.positiveOrNegative=leftTemp.positiveOrNegative&&i.positiveOrNegative;
+					i=leftTemp;
+				}
+				if(!i.abcOrNum&&i.simpleOrComplex&&i.right==null)
+				{
+					if(plusTemp==null)
+						plusTemp=i;
+					else
+					{
+						if(i.positiveOrNegative)
+							plusTemp.num=plusTemp.num+i.num;
+						else
+							plusTemp.num=plusTemp.num-i.num;
+						Expression topTemp=null;
+						for(topTemp=head;topTemp.down!=i;topTemp=topTemp.down);
+						topTemp.down=i.down;
+					}
+				}
+			}
+			
+			if(head.down.down==null&&head.down.right==null&&head.down.pow==1)
+			{
+				simpleOrComplex=head.down.simpleOrComplex;
+				abc=head.down.abc;
+				pow=pow*head.down.pow;
+				num=head.down.num;
+				abc=head.down.abc;
+				abcOrNum=head.down.abcOrNum;
+				positiveOrNegative=head.down.positiveOrNegative;
+				thisExpression=head.down.thisExpression;	
+				head=head.down.head;
+				if(!abcOrNum)
+				{
+					num= (long) Math.pow(num, pow);
+					pow=1;
+				}
+			}
+			
+		}
 	}
 	
+	public int derivative(String var)
+	{
+		int flag =1;
+		if(simpleOrComplex)
+		{
+			if(abcOrNum)
+			{
+				if(abc.equals(var))
+					flag=0;
+			}
+		}
+		else
+		{
+			int flag2=1;
+			for(Expression i=head.down;i!=null;i=i.down)
+			{
+				flag=1;
+				for(Expression j=i;j!=null;j=j.right)
+				{
+					if(!j.simpleOrComplex)
+					{
+						Expression copy = new Expression();
+						copy.pow=j.pow;
+						copy.Set(j.thisExpression);
+						copy.right = j.right;
+						j.right = copy;
+						j.pow=1;
+						flag *= j.derivative(var);
+						j=j.right;
+					}
+					else 
+						flag *= j.derivative(var);
+					if (flag == 0)
+					{
+						flag2=0;
+						if(j.pow==1)
+						{
+							j.num=1;
+							j.abcOrNum=false;
+						}
+						else
+						{
+							Expression powTemp = new Expression();
+							powTemp.right=j.right;
+							j.right=powTemp;
+							powTemp.abcOrNum=false;
+							powTemp.num=j.pow;
+							j.pow--;
+							j=j.right;
+						}
+					}
+					
+				}
+				if(flag==1)
+				{
+					i.num=0;
+					i.abcOrNum=false;
+				}
+			}
+			flag *=flag2;
+		}
+		return flag;
+	}
+	
+	public void Command(String commandInput)
+	{
+		Expression lalala=new Expression();
+		lalala.Set(thisExpression);
+		lalala.simplify();
+		if(commandInput.substring(1,4).equals("d/d"))
+		{
+			String var = new String();
+			int j;
+			for(j=4;j<commandInput.length()&&commandInput.charAt(j)!= ' ';j++);
+			var = commandInput.substring(4,j);
+			lalala.derivative(var);
+		}
+		else if (commandInput.substring(1,9).equals("simplify"))
+		{
+			String[][] x=new String[100][2];
+			int n=0;
+			for(int i=9;i<commandInput.length();i++)
+			{
+				if((commandInput.charAt(i)>='A'&&commandInput.charAt(i)<='Z') || (commandInput.charAt(i)>='a'&&commandInput.charAt(i)<='z'))
+				{
+					int j;
+					for(j=i;commandInput.charAt(j)!= '=';j++);
+					x[n][0] = commandInput.substring(i,j);
+					i = j;
+				}
+				else if(commandInput.charAt(i)>='0'&&commandInput.charAt(i)<='9')
+				{
+					int j;
+					for(j=i;j <commandInput.length()&&commandInput.charAt(j)!= ' ';j++);
+					x[n][1] = commandInput.substring(i,j);
+					i = j;
+					n++;
+				}
+			}
+			lalala.change(x,n);
+		}
+		lalala.simplify();
+		lalala.printout();
+		System.out.print("\n");
+
+	}
 	
 }

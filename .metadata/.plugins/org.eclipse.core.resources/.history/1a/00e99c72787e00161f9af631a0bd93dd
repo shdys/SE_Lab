@@ -10,7 +10,7 @@ public class PolynomialaArithmetic {
 		String Input ;
 		int la=0;
 		Expression a=new Expression();
-		System.out.println("Welcome to the PolynomialaArithmetic monitor.\nServer version: 1.0.9\nCopyright (c) 2016¡£\nType '!h' for help. Type '!q' for exit.\n ");
+		System.out.println("Welcome to the Polynomiala monitor.\nServer version: 1.0.9\nCopyright (c) 2016\nType '!h' for help. Type '!q' for exit.\n\n ");
 		while(true){
 			Input = lalala.nextLine();
 			try{

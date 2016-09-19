@@ -1,0 +1,37 @@
+package 表达式计算;
+
+import java.util.*;
+
+public class PolynomialaArithmetic {
+
+	public static void main(String[] args) {
+		// TODO 自动生成的方法存根
+		Scanner lalala = new Scanner(System.in);
+		String Input ;
+		Expression a=null;
+		System.out.println("Welcome to the Polynomiala monitor.\nServer version: 1.0.9\nCopyright (c) 2016\nType '!h' for help. Type '!q' for exit.\n\n ");
+		while(true){
+			Input = lalala.nextLine();
+			if(Input.length()>0&&Input.charAt(0)=='!')
+			{
+				if(Input.equals("!q"))
+					break;
+				else if (Input.equals("!h"))
+					System.out.println("lalala");
+				else 
+				{
+					if(a==null)
+						System.out.println("尚未输入任何表达式，无法执行命令。\n");
+					else 
+						a.Command(Input);
+				}
+			}
+			else 
+			{
+				a.Set(Input);
+				a.printout();
+				System.out.print("\n");
+			}
+	}
+
+}
