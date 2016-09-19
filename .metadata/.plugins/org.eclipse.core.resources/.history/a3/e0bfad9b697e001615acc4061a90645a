@@ -405,21 +405,19 @@ public class Expression {
 	
 	public int derivative(String var)
 	{
-		int flag =1;
+		int flag =0;
 		if(simpleOrComplex)
 		{
 			if(abcOrNum)
 			{
 				if(abc.equals(var))
-					flag=0;
+					flag=1;
 			}
 		}
 		else
 		{
-			int flag2=1;
 			for(Expression i=head.down;i!=null;i=i.down)
 			{
-				flag=1;
 				for(Expression j=i;j!=null;j=j.right)
 				{
 					if(!j.simpleOrComplex)
@@ -430,14 +428,13 @@ public class Expression {
 						copy.right = j.right;
 						j.right = copy;
 						j.pow=1;
-						flag *= j.derivative(var);
+						j.derivative(var);
 						j=j.right;
 					}
 					else 
-						flag *= j.derivative(var);
-					if (flag == 0)
+						flag = j.derivative(var);
+					if (flag == 1)
 					{
-						flag2=0;
 						if(j.pow==1)
 						{
 							j.num=1;
@@ -456,13 +453,12 @@ public class Expression {
 					}
 					
 				}
-				if(flag==1)
+				if(flag==0)
 				{
 					i.num=0;
 					i.abcOrNum=false;
 				}
 			}
-			flag *=flag2;
 		}
 		return flag;
 	}
@@ -503,8 +499,8 @@ public class Expression {
 				}
 			}
 			lalala.change(x,n);
+			lalala.simplify();
 		}
-		lalala.simplify();
 		lalala.printout();
 		System.out.print("\n");
 

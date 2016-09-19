@@ -503,8 +503,8 @@ public class Expression {
 				}
 			}
 			lalala.change(x,n);
+			lalala.simplify();
 		}
-		lalala.simplify();
 		lalala.printout();
 		System.out.print("\n");
 

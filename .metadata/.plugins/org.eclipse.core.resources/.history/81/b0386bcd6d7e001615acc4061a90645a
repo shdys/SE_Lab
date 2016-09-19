@@ -416,10 +416,9 @@ public class Expression {
 		}
 		else
 		{
-			int flag2=1;
 			for(Expression i=head.down;i!=null;i=i.down)
 			{
-				flag=1;
+				//flag=1;
 				for(Expression j=i;j!=null;j=j.right)
 				{
 					if(!j.simpleOrComplex)
@@ -437,7 +436,6 @@ public class Expression {
 						flag *= j.derivative(var);
 					if (flag == 0)
 					{
-						flag2=0;
 						if(j.pow==1)
 						{
 							j.num=1;
@@ -462,7 +460,6 @@ public class Expression {
 					i.abcOrNum=false;
 				}
 			}
-			flag *=flag2;
 		}
 		return flag;
 	}
@@ -503,8 +500,8 @@ public class Expression {
 				}
 			}
 			lalala.change(x,n);
+			lalala.simplify();
 		}
-		lalala.simplify();
 		lalala.printout();
 		System.out.print("\n");
 
